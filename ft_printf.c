@@ -1,68 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ousabbar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/12 10:29:45 by ousabbar          #+#    #+#             */
+/*   Updated: 2023/11/12 10:29:47 by ousabbar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-int ft_printf(const char *s, ...)
+int	ft_printf(const char *s, ...)
 {
-    va_list args;
-    va_start(args, s);
-    unsigned int i = 0;
+	va_list			args;
+	unsigned int	i;
+	int				count;
 
-    while (s[i])
-    {
-        if (s[i] == '%')
-        {
-            i++;
-            if (s[i] == 'c')
-            {
-                char c = va_arg(args, int);
-                ft_putchar(c);
-            }
-            else if (s[i] == 's')
-            {
-                char *s = va_arg(args, char *);
-                ft_putstr(s);
-            }
-            else if(s[i] == 'd' || s[i] == 'i')
-            {
-                int d = va_arg(args, int);
-                ft_putnbr(d);
-            }
-            else if (s[i] == 'u')
-            {
-                unsigned int u = va_arg(args, unsigned int);
-                ft_putnbr_unsigned(u);
-            }
-            else if (s[i] == 'x')
-            {
-                ft_printf_hex(va_arg(args, int));
-            }
-            else if (s[i] == 'p')
-            {
-                ft_printf_hex(va_arg(args, int));
-            }
-            else if (s[i] == 'X')
-                ft_printf_HEX(va_arg(args, int));
-            else if (s[i] == '%')
-                ft_putchar('%');
-            
-        }
-        else
-            ft_putchar(s[i]);
-        i++;
-    }
-    va_end(args);
-    return i;
+	count = 0;
+	i = 0;
+	va_start(args, s);
+	while (s[i])
+	{
+		if (s[i] == '%')
+		{
+			i++;
+			if (s[i] == 'd' || s[i] == 'i' || s[i] == 'u')
+				count += ft_integers(s[i], args);
+			if (s[i] == 'c' || s[i] == 's' || s[i] == '%')
+				count += ft_chars(s[i], args);
+			else if (s[i] == 'x' || s[i] == 'X' || s[i] == 'p')
+				count += ft_all_base(s[i], args);
+		}
+		else
+			count += ft_putchar(s[i]);
+		i++;
+	}
+	va_end(args);
+	return (count);
 }
-int main()
+/*
+#include <limits.h>
+int main(void)
 {
-    char c = 'z';
-    char s[] = "world";
-    int d = 10;
-    unsigned int u = -123;
-    int x = 500;
-    int X = 500;
-    void *p;
-    ft_printf("hello %c %s %d %i %u %x %X %% %p", c, s, d, d, u, x, X, p);
-    printf("\nhello %c %s %d %i %u %x %X %% %p", c, s, d, d, u, x, X, p);
+    int len;
+    int len2;
+    unsigned int ui;
+    void *addr;
 
-    printf("\n%d", 123 % 16);
-}
+    len = ft_printf("Let's try to printf a simple sentence.\n");
+    len2 = printf("Let's try to printf a simple sentence.\n");
+    ui = (unsigned int)12355543 + 1;
+    addr = &ui;
+    ft_printf("Length:[%d, %i]\n", len, len);
+    printf("Length:[%d, %i]\n", len2, len2);
+    ft_printf("Negative:[%d]\n", -762534);
+    printf("Negative:[%d]\n", -762534);
+    ft_printf("Unsigned:[%u]\n", ui);
+    printf("Unsigned:[%u]\n", ui);
+    ft_printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+    printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+    ft_printf("Character:[%c]\n", 'H');
+    printf("Character:[%c]\n", 'H');
+    ft_printf("String:[%s]\n", "I am a string !");
+    printf("String:[%s]\n", "I am a string !");
+    ft_printf("Address:[%p]\n", addr);
+    printf("Address:[%p]\n", addr);
+    len = ft_printf("Percent:[%%]\n");
+    len2 = printf("Percent:[%%]\n");
+    ft_printf("Len:[%d]\n", len);
+    printf("Len:[%d]\n", len2);
+    return (0);
+}*/
