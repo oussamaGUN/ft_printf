@@ -31,7 +31,7 @@ void	ft_rev(char *s)
 	}
 }
 
-int	ft_printf_hex(unsigned long a)
+int	ft_printf_hex(unsigned int a)
 {
 	char	*hex_base;
 	char	hex_value[32];

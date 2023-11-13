@@ -12,6 +12,21 @@
 
 #include "ft_printf.h"
 
+int	ft_len_u(unsigned int n)
+{
+	int	i;
+
+	i = 0;
+	if (n == 0)
+		i++;
+	while (n > 0)
+	{
+		n /= 10;
+		i++;
+	}
+	return (i);
+}
+
 int	ft_integers(char c, va_list args)
 {
 	int				d;
@@ -27,7 +42,8 @@ int	ft_integers(char c, va_list args)
 	else if (c == 'u')
 	{
 		u = va_arg(args, unsigned int);
-		count += ft_putnbr_unsigned(u);
+		count += ft_len_u(u);
+		ft_putnbr_unsigned(u);
 	}
 	return (count);
 }

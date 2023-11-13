@@ -23,6 +23,11 @@ int	ft_putstr(char *s)
 	int	i;
 
 	i = 0;
+	if (s == '\0')
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
 	while (s[i])
 		write(1, &s[i++], 1);
 	return (i);
@@ -33,6 +38,8 @@ int	ft_len(int n)
 	int	i;
 
 	i = 0;
+	if (n == 0)
+		i++;
 	if (n < 0)
 	{
 		i++;
@@ -50,12 +57,12 @@ int	ft_putnbr(int nb)
 {
 	int	count;
 
+	count = ft_len(nb);
 	if (nb == -2147483648)
 	{
 		write(1, "-2147483648", 11);
 		return (11);
 	}
-	count = ft_len(nb);
 	if (nb < 0)
 	{
 		ft_putchar('-');
@@ -71,17 +78,13 @@ int	ft_putnbr(int nb)
 	return (count);
 }
 
-int	ft_putnbr_unsigned(unsigned int nb)
+void	ft_putnbr_unsigned(unsigned int nb)
 {
-	int	count;
-
-	count = ft_len(nb);
-	if (nb >= 10)
-	{
-		ft_putnbr(nb / 10);
-		ft_putnbr(nb % 10);
-	}
 	if (nb < 10)
 		ft_putchar(nb + 48);
-	return (count);
+	if (nb >= 10)
+	{
+		ft_putnbr_unsigned(nb / 10);
+		ft_putnbr_unsigned(nb % 10);
+	}
 }

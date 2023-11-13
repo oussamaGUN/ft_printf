@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_printf_big(unsigned long a)
+int	ft_printf_big(unsigned int a)
 {
 	char	*hex_base;
 	char	hex_value[32];
