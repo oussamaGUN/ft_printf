@@ -54,4 +54,4 @@ To use the library functions in your code, simply include its header:
 
 You can use this third party tester to fully test the project:
 
-* [Tripouille/printfTester](https://github.com/xicodomingues/francinette)
+* [francinette](https://github.com/xicodomingues/francinette)
